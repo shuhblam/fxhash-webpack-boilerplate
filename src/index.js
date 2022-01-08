@@ -13,7 +13,7 @@ window.setup = function() {
   padding = size - offset;
 
   colorScheme = getColorScheme(7);
-  var color = 
+  var color = getRandomArrayItem(colorScheme);
   background(255)
   createCanvas(size, size);
 
@@ -24,7 +24,7 @@ window.setup = function() {
     offset,
     padding,
     colorScheme, 
-    color: getRandomArrayItem(colorScheme),
+    color: 
     random: rndm()
   })
 }
