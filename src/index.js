@@ -18,13 +18,14 @@ window.setup = function() {
   createCanvas(size, size);
 
   noLoop();
+
   console.log({
     fxhash,
     size,
     offset,
     padding,
     colorScheme, 
-    color: 
+    color,
     random: rndm()
   })
 }
