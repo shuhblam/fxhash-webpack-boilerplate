@@ -1,41 +1,47 @@
 var size;
 var padding;
-var offset;
+var innerSize;
 var colorScheme;
 
-import { getColorScheme } from './colors';
-import { getRandomNumber as rndm, getRandomArrayItem } from './random';
+
+import { getColorScheme } from './utils/colors';
+import { getRandomNumber as rndm, getRandomArrayItem } from './utils/random';
 
 window.setup = function() {
   colorMode(HSB, 360, 100, 100, 100);
   size = min(windowWidth, windowHeight)
-  offset = size / 15;
-  padding = size - offset;
+  padding = size / 15;
+  innerSize = size - padding * 2;
 
   colorScheme = getColorScheme(7);
-  var color = getRandomArrayItem(colorScheme);
+
   background(255)
   createCanvas(size, size);
 
   noLoop();
 
-  console.log({
+}
+
+window.draw = function() {
+  background(255)
+  var color = getRandomArrayItem(colorScheme);
+  console.log(JSON.stringify({
     fxhash,
     size,
-    offset,
+    innerSize,
     padding,
     colorScheme, 
     color,
     random: rndm()
-  })
-}
+  }, null, 2));
 
-window.draw = function() {
- // init
+
+  noFill();
+  rect(padding, padding, innerSize, innerSize)
 }
 
 window.mousePressed = function() {
-  //redraw();
+  redraw();
 }
 
 window.keyPressed = function() {
