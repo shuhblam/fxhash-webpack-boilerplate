@@ -1,5 +1,6 @@
 import {getRandomNumber} from './random'
 
+// https://github.com/BlakeRMills/MetBrewer
 export const colors = [
   {
     name: "Austria",
