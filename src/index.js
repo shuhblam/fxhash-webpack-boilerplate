@@ -35,9 +35,27 @@ window.draw = function() {
     random: rndm()
   }, null, 2));
 
-
-  noFill();
+  noStroke();
+  fill(getRandomArrayItem(colorScheme))
   rect(padding, padding, innerSize, innerSize)
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 2, padding* 2, innerSize - padding*2, innerSize- padding*2)
+
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 3, padding* 3, innerSize - padding * 4, innerSize- padding * 4)
+
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 4, padding* 4, innerSize - padding * 6, innerSize- padding * 6)
+
+
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 5, padding* 5, innerSize - padding * 8, innerSize- padding * 8)
+
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 6, padding* 6, innerSize - padding * 10, innerSize- padding * 10)
+
+  fill(getRandomArrayItem(colorScheme))
+  rect(padding * 7, padding* 7, innerSize - padding * 12, innerSize- padding * 12)
 }
 
 window.mousePressed = function() {
