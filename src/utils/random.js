@@ -1,6 +1,6 @@
 export const getRandomNumber = (min, max) => {
   if(min !== undefined && max === undefined){
-    return fxrand(min)
+    return fxrand(min) * 5
   }
   if(min === undefined && max === undefined) return fxrand()
   return fxrand() * (max - min) + min;
