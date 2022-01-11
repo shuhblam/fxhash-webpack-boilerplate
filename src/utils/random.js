@@ -10,3 +10,8 @@ export const getRandomArrayItem = (arr) => {
   var idx = int(getRandomNumber(0, arr.length -1))
   return arr[idx];
 }
+
+export const getRandomInt = (min, max) => {
+  return Math.floor(getRandomNumber(min, max+1))
+}
+
