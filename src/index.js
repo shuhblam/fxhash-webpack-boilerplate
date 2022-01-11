@@ -8,7 +8,7 @@ var _c;
 import { getColorScheme } from './utils/colors';
 import { line1 } from './utils/lines';
 import { getRandomNumber as rndm, getRandomInt, getRandomArrayItem, getRandomNumber } from './utils/random';
-var scale = getRandomNumber(0.9,1.25)
+var scale = getRandomNumber(0.85,1.25)
 function addGrain(amount){
   loadPixels()
 
