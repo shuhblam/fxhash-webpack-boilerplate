@@ -8,7 +8,7 @@ var _c;
 import { getColorScheme } from './utils/colors';
 import { line1 } from './utils/lines';
 import { getRandomNumber as rndm, getRandomInt, getRandomArrayItem, getRandomNumber } from './utils/random';
-var scale = getRandomNumber(0.85,1.25)
+var scale = getRandomNumber(0.89,1.1)
 function addGrain(amount){
   loadPixels()
 
@@ -34,8 +34,9 @@ window.setup = function() {
   colorScheme.push('#ffffff')
   center = size / 2
   background(255)
-  createCanvas(size, size);
-  
+  let cnv = createCanvas(size, size);
+  cnv.id('rotatorCanvas');
+
   _c = getRandomArrayItem(colorScheme);
 
   console.log(JSON.stringify({
@@ -52,7 +53,7 @@ window.setup = function() {
 
   generate();
   generate();
-
+  generate();
   addGrain(getRandomInt(8,12))
 }
 
@@ -81,12 +82,11 @@ const generate = function() {
   }
 
   points.forEach((p) => {
-    console.log(p);
     var x2 = p[0] + center;
     var y2 = p[1] + center;
     var newC = getRandomArrayItem(colorScheme);
     var c = color(newC);
-    c.setAlpha(getRandomInt(10,50))
+    c.setAlpha(getRandomInt(10,90))
     stroke(c);
     line1(x1,y1, x2, y2, getRandomInt(20,60))
 
@@ -100,6 +100,8 @@ const generate = function() {
 
 
   var points2 = [];
+  scale = getRandomNumber(0.85,1.1)
+  r = getRandomInt(innerSize * scale/2, innerSize * scale/1.5);
   for(var a= PI/2; a <= 3*PI/2; a += da){
     var x = r * cos(a);
     var y = r * sin(a);
@@ -113,7 +115,7 @@ const generate = function() {
     var y2 = p[1] + center;
     var newC = getRandomArrayItem(colorScheme);
     var c = color(newC);
-    c.setAlpha(getRandomInt(10,50))
+    c.setAlpha(getRandomInt(10,90))
     stroke(c);
     line1(x3,y3, x2, y2,  getRandomInt(20,60))
   })

@@ -9,6 +9,5 @@ export const line1 = (x1, y1, x2, y2, weight) => {
     var ny2 = y2 + rndm(0, weight / 2) * sin(theta);
     strokeWeight(0.5);
     line(nx1, ny1, nx2, ny2);
-    console.log('line1', TWO_PI, theta)
   }
 }
