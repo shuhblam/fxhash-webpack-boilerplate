@@ -5,29 +5,17 @@ var colorScheme;
 var center;
 
 var _c;
+var da; 
 import { getColorScheme } from './utils/colors';
 import { line1 } from './utils/lines';
 import { getRandomNumber as rndm, getRandomInt, getRandomArrayItem, getRandomNumber } from './utils/random';
-var scale = getRandomNumber(0.89,1.1)
-function addGrain(amount){
-  loadPixels()
-
-  for(let i=0;i<(width*pixelDensity())*(height*pixelDensity())*4;i+=4){
-    let noise = map(fxrand(),0,1,-amount,amount)
-    pixels[i] = pixels[i]+noise
-    pixels[i+1] = pixels[i+1]+noise
-    pixels[i+2] = pixels[i+2]+noise
-    pixels[i+3] = pixels[i+3]+noise
-  }
-
-  updatePixels()
-}
+var scale = .5
 
 window.setup = function() {
 
   colorMode(HSB, 360, 100, 100, 100);
   size = min(windowWidth, windowHeight)
-  padding = size / 5;
+  padding = size / 30;
   innerSize = size - padding * 2;
 
   colorScheme = getColorScheme();
@@ -50,74 +38,84 @@ window.setup = function() {
   }, null, 2));
 
   noLoop();
+  setInterval(() => {
+    generate();
+  }, 75)
 
-  generate();
-  generate();
-  generate();
-  addGrain(getRandomInt(8,12))
+
 }
 
 const generate = function() {
-  fill('#000')
-  rect(padding, padding, innerSize, innerSize)
-  stroke(360, 100, 100, getRandomInt(100,100));
-  strokeWeight(10);
-  //point(center, center);
+  noFill()
+  var c = color('#fff');
+  c.setAlpha(1)
+  stroke(c)
 
-  var xoff = 0;
-  var da = 0.05;
-  var dx = 0.1;
-  var r = getRandomInt(innerSize * scale/2, innerSize * scale/1.5);
-  var x1 = (size / 2 );
-  var y1 = getRandomInt(padding * 4, innerSize - padding * 2)
+  rect(padding, padding, innerSize, innerSize);
+  var points = []
 
-  strokeWeight(1);
-  var points = [];
-  for(var a=-PI /2; a < PI / 2; a += da){
-    var x = r * cos(a);
-    var y = r * sin(a);
-    xoff += dx;
-    points.push([x,y])
-    //point(x,y)
+
+  for(var i=1; i < 2.5; i+=1){
+    points.push(...new CircleWithPoints(scale*i))
   }
 
   points.forEach((p) => {
-    var x2 = p[0] + center;
-    var y2 = p[1] + center;
-    var newC = getRandomArrayItem(colorScheme);
-    var c = color(newC);
-    c.setAlpha(getRandomInt(10,90))
-    stroke(c);
-    line1(x1,y1, x2, y2, getRandomInt(20,60))
+    var p2 = getRandomArrayItem(points);
+    strokeWeight(.09);
+    line(p[0] + center, p[1] + center, p2[0] + center, p2[1] + center)
+  });
 
-  })
-
-  //circle(x1, y1, 100);
+  fill(getRandomInt(0,360), 100, 100, 1)
+  stroke(255)
+  strokeWeight(0);
+  circle(center, center, innerSize * (scale *1.9))
 
 
-  var x3 = size /2;
-  var y3 = getRandomInt(innerSize - padding * 2, padding * 4 )
-
-
-  var points2 = [];
-  scale = getRandomNumber(0.85,1.1)
-  r = getRandomInt(innerSize * scale/2, innerSize * scale/1.5);
-  for(var a= PI/2; a <= 3*PI/2; a += da){
-    var x = r * cos(a);
-    var y = r * sin(a);
-    xoff += dx;
-    points2.push([x,y])
-    //point(x,y)
+  for(var i=1.9; i > 1; i-=.25){
+    fill(getRandomInt(0,360), int(getRandomNumber((90,100))),int(getRandomNumber((90,100))), 1)
+    stroke(255)
+    strokeWeight(0);
+    circle(center, center, innerSize * (scale * i))
   }
 
-  points2.forEach((p) => {
-    var x2 = p[0] + center;
-    var y2 = p[1] + center;
-    var newC = getRandomArrayItem(colorScheme);
-    var c = color(newC);
-    c.setAlpha(getRandomInt(10,90))
-    stroke(c);
-    line1(x3,y3, x2, y2,  getRandomInt(20,60))
-  })
+  fill(0, 0, 0, 20)
+  circle(center, center, innerSize * (scale * getRandomNumber(.1, .9)))
 
+
+
+}
+
+
+class CircleWithPoints {
+  constructor(scale){
+    noFill()
+    stroke(255)
+    strokeWeight(1);
+    //point(center, center);
+  
+    var xoff = 0;
+    da = 0.15
+    var dx = 0.01;
+    var r = innerSize * scale;
+    var points = [];
+    for(var a=-PI /2; a < PI / 2; a += da){
+      var x = r * cos(a);
+      var y = r * sin(a);
+      xoff += dx;
+      points.push([x,y])
+      //point(x,y)
+    }
+  
+  
+    var points2 = [];
+    for(var a= PI/2; a <= 3*PI/2; a += da){
+      var x = r * cos(a);
+      var y = r * sin(a);
+      xoff += dx;
+      points2.push([x,y])
+      //point(x,y)
+    }
+
+    return [...points, ...points2]
+  }
 }
