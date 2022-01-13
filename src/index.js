@@ -10,7 +10,7 @@ var minNumberOfSquareWithLines = 50;
 var maxNumberOfSquareWithLines = 600;
 
 
-var minNumberOfCircleWithLines = 50;
+var minNumberOfCircleWithLines = 100;
 var maxNumberOfCircleWithLines = 600;
 
 
@@ -44,38 +44,40 @@ window.setup = function() {
 }
 
 window.draw = function(){
-  blendMode(MULTIPLY)
-  background(255)
+  blendMode(DIFFERENCE)
+  background(0)
   noFill()
-  stroke(0,0,0)
-  strokeWeight(1)
+  stroke(255)
+  strokeWeight(10)
   //rect(0,0,size,size)
   //rect(offset, offset, padding - offset, padding - offset)
 
-  rect(offset*2, offset*2, padding - offset*3, padding - offset*3)
-  // draw circles with lines
+  //rect(offset*2, offset*2, padding - offset*3, padding - offset*3)
+  //draw circles with lines
   for(var i=0; i < rand(minNumberOfCircleWithLines, maxNumberOfCircleWithLines); i++){
-    let circle = new CircleWithLine();
+    let circle = new CircleWithLine(true);
     circle.display();
   }
 
   //draw squares with lines
   for(var i=0; i < rand(minNumberOfSquareWithLines, maxNumberOfSquareWithLines); i++){
-    let square = new SquareWithLine();
+    let square = new SquareWithLine(true);
     square.display();
   }
 
   // draw circles with lines
   for(var i=0; i < rand(minNumberOfCircleWithLines, maxNumberOfCircleWithLines); i++){
-    let circle = new CircleWithLine();
+    let circle = new CircleWithLine(false);
     circle.display();
   }
 
   //draw squares with lines
   for(var i=0; i < rand(minNumberOfSquareWithLines, maxNumberOfSquareWithLines); i++){
-    let square = new SquareWithLine();
+    let square = new SquareWithLine(false);
     square.display();
   }
+
+
 
 }
 
@@ -84,14 +86,15 @@ window.mousePressed = function() {
 }
 
 window.keyPressed = function() {
-  save();
+  //save();
 }
 
 class CircleWithLine {
-  constructor(){
+  constructor(fill){
     this.x = rand(offset * rand(1,2), padding - offset * rand());
     this.y = rand(offset * rand(1,2), padding - offset * rand());
-    this.diameter = rand(5, 20);
+    this.diameter = rand(5, 30);
+    this.fill = fill;
   }
   display() {
 
@@ -99,9 +102,13 @@ class CircleWithLine {
     var col = c[int(rand(0, c.length -1))]
     var _c = color(col)
 
-    fill(_c)
-    var lineColor = color(0,0,0)
-    lineColor.setAlpha(rand(20,100))
+    if(!this.fill){
+      var lineColor = color(_c)
+    } else {
+      var lineColor = color(255)
+    }
+
+    lineColor.setAlpha(rand(70,100))
     strokeWeight(1)
     stroke(lineColor);
     drawingContext.setLineDash([rand(0,3),rand(0,5)]);
@@ -143,28 +150,41 @@ class CircleWithLine {
     drawingContext.setLineDash([0]);
     var col = c[int(rand(0, c.length -1))]
     var _c = color(col)
-    _c.setAlpha(rand(100,200))
-    fill(_c)
+    _c.setAlpha(rand(90,255))
 
-    strokeWeight(0)
-    stroke(_c)
+    if(!this.fill){
+      noFill()
+      strokeWeight(1)
+      stroke(_c)
+    } else {
+      stroke(_c)
+      strokeWeight(1)
+
+      fill(_c)
+    }
+
     circle(this.x, this.y, this.diameter);
   }
 }
 
 class SquareWithLine {
-  constructor(){
+  constructor(fill){
     this.x = rand(offset * rand(1,2), padding - offset * rand());
     this.y = rand(offset * rand(1,2), padding - offset * rand());
-    this.diameter = rand(5, 15);
+    this.diameter = rand(5, 20);
+    this.fill = fill;
   }
   display() {
 
     let r = rand() * 10;
-
-    // draw line
-    var lineColor = color(0,0,0)
-    lineColor.setAlpha(rand(20,100))
+    var col = c[int(rand(0, c.length -1))]
+    var _c = color(col)
+    if(!this.fill){
+      var lineColor = color(_c)
+    } else {
+      var lineColor = color(255)
+    }
+    lineColor.setAlpha(rand(70,100))
     strokeWeight(1)
     stroke(lineColor);
     drawingContext.setLineDash([rand(0,3),rand(0,5)]);
@@ -210,9 +230,17 @@ class SquareWithLine {
     var col = c[int(rand(0, c.length -1))]
     var _c = color(col)
     _c.setAlpha(rand(100,200))
-    fill(_c)
-    stroke(_c)
-    strokeWeight(0)
+    if(!this.fill){
+      noFill()
+
+      stroke(_c)
+      strokeWeight(1)
+    } else {
+      stroke(_c)
+      strokeWeight(1)
+
+      fill(_c)
+    }
     rect(this.x, this.y, this.diameter, this.diameter);
 
   }
