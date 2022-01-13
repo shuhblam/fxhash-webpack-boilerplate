@@ -68,10 +68,10 @@ const generate = function() {
   fill(getRandomInt(0,360), 100, 100, 1)
   stroke(255)
   strokeWeight(0);
-  circle(center, center, innerSize * (scale *1.9))
+  circle(center, center, innerSize * (scale * 1.9))
 
 
-  for(var i=1.9; i > 1; i-=.25){
+  for(var i=1.9; i > 1; i-=.2){
     fill(getRandomInt(0,360), int(getRandomNumber((90,100))),int(getRandomNumber((90,100))), 1)
     stroke(255)
     strokeWeight(0);
@@ -94,7 +94,7 @@ class CircleWithPoints {
     //point(center, center);
   
     var xoff = 0;
-    da = 0.15
+    da = 0.05
     var dx = 0.01;
     var r = innerSize * scale;
     var points = [];
