@@ -1,16 +1,13 @@
-// these are the variables you can use as inputs to your algorithms
-console.log(fxhash)   // the 64 chars hex number fed to your algorithm
-console.log(fxrand()) // deterministic PRNG function, use it instead of Math.random()
+
 var rnd;
-// window.preload = function() {
-//   rnd = map(fxrand(), 0, 1, 0, 10000);
-//   noiseSeed(rnd);
-//   randomSeed(rnd);
-// }
+window.preload = function() {
+  rnd = map(fxrand(), 0, 1, 0, 10000);
+  noiseSeed(rnd);
+  randomSeed(rnd);
+}
 
 
 function randomNumber(min, max) { 
-  console.log('random number', min, max)
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(fxrand() * (max - min + 1)) + min;
@@ -28,10 +25,6 @@ function randomNumber(min, max) {
 // More about it in the guide, section features:
 // [https://fxhash.xyz/articles/guide-mint-generative-token#features]
 //
-window.$fxhashFeatures = {
-  rnd: rnd,
-  scheme: "",
-}
 
 const URL  = [
   "https://coolors.co/011627-fdfffc-2ec4b6-e71d36-ff9f1c",
@@ -59,12 +52,13 @@ const URL  = [
 ]
 let COLS;
 var size;
-
-
-
+var minSize;
+var maxSize;
+var f = [];
 window.setup = function() {
-	size = min(windowWidth, windowHeight)
-	createCanvas(size, size);
+	minSize = min(windowWidth, windowHeight)
+  maxSize = max(windowWidth, windowHeight)
+	createCanvas(windowWidth, windowHeight);
 	frameRate(60);
 	noLoop()
 }
@@ -80,31 +74,37 @@ window.keyPressed = function() {
 window.draw = function() {
   clear();
   var rand = randomNumber(0, URL.length-1);
-  window.$fxhashFeatures.rand = rand;
+
   var url = URL[rand]
-  window.$fxhashFeatures.scheme = url;
+
 	COLS = createCols(url);
 	const arr =  [c, c2, c3, c4];
 	noFill();
 	background(0);
 	noStroke();
 	
-	unit(size /2, size/2 ,  size/0.75,  size/0.75);
-  console.log($fxhashFeatures)
+	unit(maxSize/2, minSize /2,  minSize / .25 ,  maxSize / .25 );
 }
 
 function unit(bx, by, w, h)
 {
-	
-	const flowerS = w;
-	
 	flower(bx, by, w);
 }
 
 
 function flower(bx, by, s)
 {
-	const f = [c, c2, c3, c4];
+  var maybe = fxrand()
+  if(maybe < .75){
+    f = [c5];
+    if(maybe < .1){
+      f = [c,c2,c5];
+    }
+  } else {
+    f = [c,c5];
+
+  }
+
 	ellipseMode(CENTER);
 	noStroke();
 	
@@ -164,7 +164,7 @@ function circlePattern(_x, _y, _dia, _uw, _uh, _fuc = function(){}, _debug = fal
 	}
 	
 	noStroke();
-	fill(random(COLS));
+	//fill(random(COLS));
 	circle(0, 0, _dia);
 	
 	let num = int(radius * TAU / _uw);
@@ -190,9 +190,19 @@ function c(_w, _h)
 {
 	ellipseMode(CENTER);
 	rectMode(CENTER);
-	fill(0);
-	noStroke();
-	ellipse(0, 0, min(_w, _h) * 0.8);
+	noFill()
+  var maybe = fxrand();
+  if(maybe < .75){
+
+    stroke(random(COLS))
+    strokeWeight(1)
+  } else {
+        noStroke();
+    fill(random(COLS));
+
+  }
+
+	ellipse(0, 0, min(_w, _h) * randomNumber(0.1,0.8)*.57);
 }
 
 function c2(_w, _h)
@@ -222,13 +232,24 @@ function c4(_w, _h)
 	triangle(-_w /2, _h / 2, 0, -_h / 2, _w /2, _h / 2);
 }
 
+function c5(_w, _h)
+{
+	ellipseMode(CENTER);
+	rectMode(CENTER);
+
+    fill(random(COLS));
+    noStroke();
+
+	rect(0, 0, randomNumber(0,_w),randomNumber(0,_h));
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 
 
 function createCols(url)
 {
-  console.log(url);
 	let slaIndex = url.lastIndexOf("/");
 	let colStr = url.slice(slaIndex + 1);
 	let colArr = colStr.split("-");
