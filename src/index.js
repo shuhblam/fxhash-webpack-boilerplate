@@ -3,6 +3,10 @@ var padding;
 var innerSize;
 var colorScheme;
 var center;
+var iris;
+
+var xCenter;
+var yCenter;
 
 var _c;
 var da; 
@@ -12,7 +16,7 @@ import { getRandomNumber as rndm, getRandomInt, getRandomArrayItem, getRandomNum
 var scale = .5
 
 window.setup = function() {
-
+  blendMode(LIGHTEST)
   colorMode(HSB, 360, 100, 100, 100);
   size = min(windowWidth, windowHeight)
   padding = size / 30;
@@ -21,8 +25,11 @@ window.setup = function() {
   colorScheme = getColorScheme();
   colorScheme.push('#ffffff')
   center = size / 2
+
+  xCenter = windowWidth/2;
+  yCenter = windowHeight/2
   background(255)
-  let cnv = createCanvas(size, size);
+  let cnv = createCanvas(windowWidth, windowHeight);
   cnv.id('rotatorCanvas');
 
   _c = getRandomArrayItem(colorScheme);
@@ -43,58 +50,81 @@ window.setup = function() {
   }, 75)
 
 
+
+
+  iris = int(getRandomNumber(0,360))
+
+  window.$fxhashFeatures = {
+    iris
+  }
+
 }
 
 const generate = function() {
   noFill()
   var c = color('#fff');
-  c.setAlpha(1)
+  c.setAlpha(10)
   stroke(c)
 
-  rect(padding, padding, innerSize, innerSize);
+  //rect(padding, padding, innerSize, innerSize);
   var points = []
 
 
-  for(var i=1; i < 2.5; i+=1){
+  for(var i=.5; i < rndm(1, 1.7); i+=.124){
     points.push(...new CircleWithPoints(scale*i))
   }
 
-  points.forEach((p) => {
-    var p2 = getRandomArrayItem(points);
-    strokeWeight(.09);
-    line(p[0] + center, p[1] + center, p2[0] + center, p2[1] + center)
-  });
+  points.push(...new CircleWithPoints(scale*2.1))
 
-  fill(getRandomInt(0,360), 100, 100, 1)
+  fill(iris, 100, 100, 1)
   stroke(255)
   strokeWeight(0);
-  circle(center, center, innerSize * (scale * 1.9))
+  circle(xCenter, yCenter, innerSize * (scale * 1.9))
 
-
-  for(var i=1.9; i > 1; i-=.2){
-    fill(getRandomInt(0,360), int(getRandomNumber((90,100))),int(getRandomNumber((90,100))), 1)
-    stroke(255)
-    strokeWeight(0);
-    circle(center, center, innerSize * (scale * i))
+  points.forEach((p) => {
+    var p2 = getRandomArrayItem(points);
+    stroke(c)
+    strokeWeight(.09);
+    line(p[0] + xCenter, p[1] + yCenter, p2[0] + xCenter, p2[1] + yCenter)
+  });
+  for(var i=1; i < 2.1; i+=.2){
+    fill(getRandomInt(0, 360), int(getRandomNumber((90,100))),int(getRandomNumber((90,100))), 1)
+    strokeWeight();
+    //circle(xCenter, yCenter, innerSize * (scale * i))
   }
+  fill(0, 0, 0, getRandomNumber(1, 20))
+  circle(xCenter, yCenter, innerSize * (scale * getRandomNumber(.1, 1.9)))
 
   fill(0, 0, 0, 20)
-  circle(center, center, innerSize * (scale * getRandomNumber(.1, .9)))
+  circle(xCenter, yCenter, innerSize * (scale * getRandomNumber(.1, 1.2)))
+}
 
+
+function drawInnerEye(){
 
 
 }
 
 
 class CircleWithPoints {
-  constructor(scale){
+  constructor(scale, _da, _dx){
     noFill()
     stroke(255)
     strokeWeight(1);
     //point(center, center);
   
     var xoff = 0;
-    da = 0.05
+
+    var randomNum = fxrand();
+    var da = 0.05
+    if(randomNum < .25){
+      da = 0.25
+    } else if (randomNum >= .25 && randomNum < .5){
+      da = 0.15
+    } else if (randomNum >= .5 && randomNum < .76){
+      da = 0.2
+    }
+
     var dx = 0.01;
     var r = innerSize * scale;
     var points = [];
