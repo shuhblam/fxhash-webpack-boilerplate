@@ -88,10 +88,10 @@ window.setup = function() {
 }
 
 window.draw = function() {
-
+  var survivors = rndm(2,30)
   possibleSpacing = [
 
-    size / rndm(3,40),
+    size / survivors,
 
   ]
 
@@ -130,6 +130,11 @@ window.draw = function() {
   x=0;
   y=0;
   spacing = getRandomArrayItem(possibleSpacing);
+
+  window.$fxhashFeatures = {
+    city: url.split('https://coolors.co/')[1],
+    survivors: int(survivors),
+  }
   noFill();
   while (x < windowWidth + spacing){
     y=0;
@@ -191,7 +196,7 @@ window.draw = function() {
 
       var alphaFill = color(0)
       alphaFill.setAlpha(rndm(60,90))
-      var center = randomHalferSpacing / rndm(1,2);
+      var center = randomHalferSpacing / rndm(1.5,2);
       fill(alphaFill);
       circle(slightlyOffsetX,slightlyOffsetY, center)
 
@@ -216,7 +221,7 @@ window.mousePressed = function() {
 
 window.keyPressed = function(e) {
   if(e.key === 's')(
-    save()
+    save(`voilà-${url.split('https://coolors.co/')[1]}.jpg`)
   )
 }
 
