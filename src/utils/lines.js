@@ -66,18 +66,21 @@ export const line1 = (x1, y1, x2, y2, weight, value) => {
   strokeWeight(1);
 }
 
-export const line2 = (x1, y1, x2, y2, weight, value) => {
-  const strokeColor = map2(value, 0, MAX_VALUES - 1, 0, 220, LINEAR, EASE_OUT);
-  console.log(strokeColor);
-  stroke(strokeColor);
+export const line2 = (x1, y1, x2, y2, weight, bg) => {
   for (let i = 0; i < weight * 5; i++) {
     const theta = random(TWO_PI);
     const nx1 = x1 + random(weight / 2) * cos(theta);
     const ny1 = y1 + random(weight / 2) * sin(theta);
     const nx2 = x2 + random(weight / 2) * cos(theta);
     const ny2 = y2 + random(weight / 2) * sin(theta);
-    strokeWeight(0.5);
-    line(nx1, ny1, nx2, ny2);
+
+    if(bg) {
+      bg.strokeWeight(0.5);
+      bg.line(nx1, ny1, nx2, ny2)
+    } else {
+      line(nx1, ny1, nx2, ny2)
+    }
+
   }
 }
 
