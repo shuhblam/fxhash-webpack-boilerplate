@@ -25,13 +25,14 @@ var rnd1;
 var rnd2;
 var scheme;
 window.setup = function() {
+  blendMode(DIFFERENCE)
   colorMode(HSB, 360, 100, 100, 100);
   size = min(windowWidth, windowHeight)
   offset = size / 30;
   padding = size - offset;
   padding = size / 30;
   innerSize = size - padding * 2;
-  iis = innerSize / 100;
+  iis = innerSize / getRandomArrayItem([80,90,50,60,40,40,30,30]);
 
   canvas = createCanvas(size, windowHeight);
 
@@ -208,7 +209,7 @@ window.setup = function() {
     ]
   ]
   _background = createCanvasBackground()
-  background(_background, 0, 0)
+  background(0)
   scheme = getRandomArrayItem(bauhaus)
   rnd1 = random(3.5,4)
   rnd2 = random(2.5,3)
@@ -231,8 +232,8 @@ const calculatePointsOfCircle = (width, height, diameter, pointCount) => {
 
 window.draw = function() {
 
-    background(255)
-    image(_background, 0 , 0)
+    background(0)
+    //image(_background, 0 , 0)
     noFill();
     stroke(255)
     strokeWeight(1)
@@ -262,9 +263,9 @@ window.draw = function() {
     gx=padding;
     gy=padding;
     var points = [];
-    while (gx < innerSize + padding + iis ) {
+    while (gx < innerSize + padding + iis/2 ) {
       gy=padding;
-      while(gy < innerSize + padding + iis ) {
+      while(gy < innerSize + padding + iis/2 ) {
         noFill()
         //circle(gx,gy, iis)
         fill(0)
@@ -279,21 +280,35 @@ window.draw = function() {
 
     //circle(center,center, 10)
     noFill()
-    // console.log(points);
-    // points.forEach((p) => {
-    //   fill(255,100,100,2)
-    //   circle(p.gx, p.gy, 1)
-    // })
+ 
+
+    points.forEach((p) => {
+      fill(255,100,100,2)
+      var c = getRandomArrayItem(scheme)
+      c.setAlpha(100)
+      stroke(c)
+      fill(c);
+      circle(p.gx, p.gy, random(1,iis))
+
+    })
+    var c = getRandomArrayItem(scheme)
+    c.setAlpha(10)
     //circle(center, center, random(innerSize));
-    for(var i=0; i < random(220,422); i ++){
+    for(var i=0; i < random(100,1000); i ++){
 
-        var p1 = getRandomArrayItem(points);
-        var p2 = getRandomArrayItem(points);
+      var p1 = getRandomArrayItem(points);
+      var p2 = getRandomArrayItem(points);
 
-        var c = getRandomArrayItem(scheme)
-        c.setAlpha(100)
-        stroke(c)
-        line2(p1.gx, p1.gy,p2.gx, p2.gy, random(10,50))
+      var c = getRandomArrayItem(scheme)
+      c.setAlpha(random(80,100))
+      stroke(c)
+      line1(p1.gx, p1.gy,p1.gx, p2.gy, random(2,iis/4))
+
+      var c = getRandomArrayItem(scheme)
+      c.setAlpha(random(80,100))
+      stroke(c)
+      line1(p1.gx, p1.gy, p2.gx, p1.gy, random(2,iis/4))
+
     }
 
 }
