@@ -84,6 +84,8 @@ window.setup = function() {
     [
       color('#ED1A3B'),
       color('#353535'),
+      color('#FEDE19'),
+      color("#224099"),
       ''
     ],
 
