@@ -55,21 +55,7 @@ const map2 = (value, start1, stop1, start2, stop2, type, when) => {
   return 0;
 }
 
-export const line1 = (x1, y1, x2, y2, weight, value) => {
-  const strokeColor = map2(value, 0, MAX_VALUES - 1, 0, 220, LINEAR, EASE_OUT);
-  console.log(strokeColor);
-  stroke(strokeColor);
-  strokeWeight(weight);
-  line(x1, y1, x2, y2);
-  stroke(255, 0, 0);
-  noFill();
-  strokeWeight(1);
-}
-
-export const line2 = (x1, y1, x2, y2, weight, value) => {
-  const strokeColor = map2(value, 0, MAX_VALUES - 1, 0, 220, LINEAR, EASE_OUT);
-  console.log(strokeColor);
-  stroke(strokeColor);
+export const line2 = (x1, y1, x2, y2, weight) => {
   for (let i = 0; i < weight * 5; i++) {
     const theta = random(TWO_PI);
     const nx1 = x1 + random(weight / 2) * cos(theta);
