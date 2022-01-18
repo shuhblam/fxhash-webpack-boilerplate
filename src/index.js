@@ -13,6 +13,7 @@ var spacing = 20;
 var iis;
 import { line1, line2, line3, line4 } from './utils/lines';
 import { getRandomArrayItem } from './utils/random'
+import { colors } from './colors/moma'
 window.preload = function() {
   rnd = map(fxrand(), 0, 1, 0, 10000);
   noiseSeed(rnd);
@@ -32,7 +33,7 @@ window.setup = function() {
   padding = size - offset;
   padding = size / 30;
   innerSize = size - padding * 2;
-  iis = innerSize / getRandomArrayItem([80,90,50,60,40,40,30,30]);
+  iis = innerSize / getRandomArrayItem([200,190,150,100, 110, 120, 130, 90, 70]);
 
   canvas = createCanvas(size, windowHeight);
 
@@ -42,7 +43,7 @@ window.setup = function() {
       color(352, 87, 70),
       color(43, 88, 95),
       color('#353535'),
-      ''
+
     ],
 
     [
@@ -51,7 +52,7 @@ window.setup = function() {
       color('#078395'),
       color('#62B2B8'),
       color('#B21100'),
-      ''
+    
     ],
 
     [
@@ -59,33 +60,33 @@ window.setup = function() {
       color('#F16031'),
       color('#FCB925'),
       color('#353535'),
-      ''
+      
     ],
     [
       color('#844A94'),
       color('#0B4881'),
       color('#783E8B'),
       color('#353535'),
-      ''
+    
     ],
     [
       color('#066728'),
       color('#0F5428'),
       color('#10703A'),
       color('#353535'),
-      ''
+   
     ],
     [
       color('#50A6D9'),
       color('#2C7BBD'),
       color('#1A2A4B'),
       color('#353535'),
-      ''
+   
     ],
     [
       color('#ED1A3B'),
       color('#353535'),
-      ''
+   
     ],
 
     [
@@ -95,7 +96,7 @@ window.setup = function() {
       color('#1B67DE'),
       color('#F3BECD'),
       color('#353535'),
-      ''
+    
     ],
 
     [
@@ -104,7 +105,7 @@ window.setup = function() {
       color('#E8834B'),
       color('#FFDD00'),
       color('#195690'),
-      ''
+    
     ],
     [
       color('#0C9F3C'),
@@ -112,7 +113,7 @@ window.setup = function() {
       color('#195F9B'),
       color('#F4FBF6'),
       color('#007545'),
-      ''
+   
     ],
 
     [
@@ -121,7 +122,7 @@ window.setup = function() {
       color('#05A43E'),
       color('#0D2014'),
       color('#B53628'),
-      ''
+    
     ],
 
     [
@@ -130,7 +131,7 @@ window.setup = function() {
       color('#FFD600'),
       color('#8C4F70'),
       color('#5C97BF'),
-      ''
+    
     ],
 
     [
@@ -139,7 +140,7 @@ window.setup = function() {
       color('#017782'),
       color('#8C4F70'),
       color('#03A2DD'),
-      ''
+    
     ],
 
     [
@@ -148,7 +149,7 @@ window.setup = function() {
       color('#C8652A'),
       color('#F6E706'),
       color('#EC6D20'),
-      ''
+     
     ],
 
     [
@@ -156,7 +157,7 @@ window.setup = function() {
       color('#E0688B'),
       color('#EF818A'),
       color('#EFA4B8'),
-      ''
+     
     ],
 
     [
@@ -164,7 +165,7 @@ window.setup = function() {
       color('#009ED8'),
       color('#41C7E0'),
       color('#3BB0CD'),
-      ''
+    
     ],
 
     [
@@ -176,7 +177,7 @@ window.setup = function() {
       color('#E0688B'),
       color('#EF818A'),
       color('#EFA4B8'),
-      ''
+     
     ],
 
     [
@@ -184,14 +185,14 @@ window.setup = function() {
       color('#C31D33'),
       color('#F8333D'),
       color('#CE323D'),
-      ''
+    
     ],
     [
       color('#026E8A'),
       color('#3BBBD6'),
       color('#0585A0'),
       color('#009AB9'),
-      ''
+     
     ],
     [
       color('#0078AA'),
@@ -202,15 +203,17 @@ window.setup = function() {
       color('#E0688B'),
       color('#EF818A'),
       color('#EFA4B8'),
-      ''
+     
     ],
-    [
-
-    ]
   ]
   _background = createCanvasBackground()
   background(0)
-  scheme = getRandomArrayItem(bauhaus)
+  var schemes = [...bauhaus, ...colors.map((c)=>{
+    return c.colors.map((_c) =>{
+      return color(_c)
+    })
+  })];
+  scheme =  getRandomArrayItem(schemes)
   rnd1 = random(3.5,4)
   rnd2 = random(2.5,3)
   noLoop();
@@ -300,14 +303,14 @@ window.draw = function() {
       var p2 = getRandomArrayItem(points);
 
       var c = getRandomArrayItem(scheme)
-      c.setAlpha(random(80,100))
+      c.setAlpha(random(90,100))
       stroke(c)
-      line1(p1.gx, p1.gy,p1.gx, p2.gy, random(2,iis/4))
+      line1(p1.gx, p1.gy,p1.gx, p2.gy, random(2,iis))
 
       var c = getRandomArrayItem(scheme)
-      c.setAlpha(random(80,100))
+      c.setAlpha(random(10,100))
       stroke(c)
-      line1(p1.gx, p1.gy, p2.gx, p1.gy, random(2,iis/4))
+      line1(p1.gx, p1.gy, p2.gx, p1.gy, random(2,iis))
 
     }
 

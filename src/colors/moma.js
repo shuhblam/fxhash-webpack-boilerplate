@@ -1,6 +1,6 @@
 import {
   getRandomNumber
-} from './random'
+} from '../utils/random'
 
 // https://github.com/BlakeRMills/MetBrewer
 export const colors = [{
