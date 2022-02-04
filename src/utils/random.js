@@ -7,6 +7,6 @@ export const getRandomNumber = (min, max) => {
 }
 
 export const getRandomArrayItem = (arr) => {
-  var idx = int(getRandomNumber(0, arr.length -1))
+  var idx = int(getRandomNumber(0, arr.length))
   return arr[idx];
 }
