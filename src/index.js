@@ -83,24 +83,32 @@ var numberToDraw;
 var s = 0;
 var rings = [];
 var heightToDraw;
+var b;
 window.setup = function() {
   var m = min(windowWidth, windowHeight);
   canvas = createCanvas(windowWidth, windowHeight);
   center = createVector(m/random(1,2), m/random(2,4));
   s = random(min(windowWidth, windowHeight)/3, min(windowWidth, windowHeight)/2);
   _color = getRandomArrayItem(pc).split("-").map((s) => `#${s}`);
-  background(0)
-  for(var j = 0; j < 10; j++){
-    for(var i = 0; i < windowWidth*2; i+=random(8,10)){
-      var c = new Ring(center.x, center.y, 0 + i);
-      rings.push(c);
-    }
-  }
+
+  // for(var j = 0; j < 10; j++){
+  //   for(var i = 0; i < windowWidth*2; i+=random(8,10)){
+  //     var c = new Ring(center.x, center.y, 0 + i);
+  //     rings.push(c);
+  //   }
+  // }
 
   // rings.forEach((r) => {
   //   r.draw();
   // });
-  numberToDraw = random(1500,3000);
+  var bg = random(1);
+  if(bg > .5){
+    b = 0;
+  } else {
+    b = 255
+  }
+  background(b)
+  numberToDraw = random(3000,5000);
   heightToDraw = random(1,1.5)
   frameRate(120)
 }
@@ -117,37 +125,28 @@ window.draw = function() {
     fill(255);
     stroke(0);
     iteration = iteration + 1;
-    fill(0)
-    rect(5,5, 100, 100)
-    fill(255)
-    text(iteration, 10,20)
+    //fill(0)
+    //rect(5,5, 100, 100)
+    //fill(255)
+    //text(iteration, 10,20)
     noFill()
     var ccc = color(random(_color))
     ccc.setAlpha(random(0,20))
+    strokeWeight(random(1.5))
     stroke(ccc)
 
      // We are going to draw a polygon out of the wave points
      beginShape();
-     
-     let xoff = 0; // Option #1: 2D Noise
-     // let xoff = yoff; // Option #2: 1D Noise
-   
+
+     let xoff = 0; 
+
      // Iterate over horizontal pixels
      for (let x = 0; x <= width; x += 1) {
-       // Calculate a y value according to noise, map to
-   
-       // Option #1: 2D Noise
        let y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
-   
-       // Option #2: 1D Noise
-       // let y = map(noise(xoff), 0, 1, 200,300);
-   
-       // Set the vertex
        vertex(x, y);
-       // Increment x dimension for noise
        xoff += 0.001;
      }
-     // increment y dimension for noise
+
      yoff += 0.0007;
      vertex(width+100, height+1);
      vertex(0-100, height+1);
