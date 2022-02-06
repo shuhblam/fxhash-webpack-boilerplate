@@ -89,7 +89,7 @@ var _yoff;
 window.setup = function() {
 
   _xoff = random(0.001, 0.002);
-  _yoff = random(0.0005, 0.001);
+  _yoff = random(0.0005, 0.0008);
   var m = min(windowWidth, windowHeight);
   canvas = createCanvas(windowWidth, windowHeight);
   center = createVector(m/random(1,2), m/random(2,4));
@@ -113,7 +113,7 @@ window.setup = function() {
     b = 255
   }
   background(b)
-  numberToDraw = random(3000,5000);
+  numberToDraw = random(3000,4000);
   heightToDraw = random(.4,1.7)
   frameRate(180)
 }
@@ -136,7 +136,7 @@ window.draw = function() {
     //text(iteration, 10,20)
     noFill()
     var ccc = color(random(_color))
-    ccc.setAlpha(random(0,20))
+    ccc.setAlpha(random(0,30))
     strokeWeight(random(1.5))
     stroke(ccc)
 
