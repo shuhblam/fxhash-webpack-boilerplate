@@ -84,7 +84,12 @@ var s = 0;
 var rings = [];
 var heightToDraw;
 var b;
+var _xoff;
+var _yoff;
 window.setup = function() {
+
+  _xoff = random(0.001, 0.002);
+  _yoff = random(0.0005, 0.001);
   var m = min(windowWidth, windowHeight);
   canvas = createCanvas(windowWidth, windowHeight);
   center = createVector(m/random(1,2), m/random(2,4));
@@ -109,8 +114,8 @@ window.setup = function() {
   }
   background(b)
   numberToDraw = random(3000,5000);
-  heightToDraw = random(1,1.5)
-  frameRate(120)
+  heightToDraw = random(.4,1.7)
+  frameRate(180)
 }
 
 var iteration = 0;
@@ -144,10 +149,10 @@ window.draw = function() {
      for (let x = 0; x <= width; x += 1) {
        let y = map(noise(xoff, yoff), 0, 1, 0, windowHeight);
        vertex(x, y);
-       xoff += 0.001;
+       xoff += _xoff;
      }
 
-     yoff += 0.0007;
+     yoff += _yoff;
      vertex(width+100, height+1);
      vertex(0-100, height+1);
      endShape(CLOSE);
