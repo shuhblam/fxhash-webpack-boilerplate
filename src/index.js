@@ -122,7 +122,7 @@ window.setup = function() {
     r.draw();
   });
   var bg = random(1);
-  var bg = random(1);
+
   if(bg > .5){
     b = 0;
   } else {
