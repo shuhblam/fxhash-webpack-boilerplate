@@ -165,7 +165,7 @@ window.draw = function() {
 
      // Iterate over horizontal pixels
      for (let x = 0; x <= width; x += 1) {
-       let y = map(noise(xoff, yoff), 0, 1, iterationDown/ssss/1.5, iterationDown*ssss*heightToDraw );
+       let y = map(noise(xoff, yoff), 0, 1, iterationDown/ssss, iterationDown*ssss );
        vertex(x, y);
        xoff += _xoff;
      }
