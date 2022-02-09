@@ -31,7 +31,7 @@ var pc = [
   "011627-fdfffc-2ec4b6-e71d36-ff9f1c",
   "3d348b-7678ed-f7b801-f18701-f35b04",
   "053c5e-1d3958-353652-4c334d-643047-7c2e41-942b3b-ab2836-c32530-db222a",
-  "03071e-370617-6a040f-9d0208-d00000-dc2f02-e85d04-f48c06-faa307-ffba08-/0466c8-0353a4-023e7d-002855-001845-001233-33415c-5c677d-7d8597-979dac"
+  "03071e-370617-6a040f-9d0208-d00000-dc2f02-e85d04-f48c06-faa307-ffba08-0466c8-0353a4-023e7d-002855-001845-001233-33415c-5c677d-7d8597-979dac"
 ]
 var _color;
 
@@ -111,16 +111,16 @@ window.setup = function() {
   console.log(_pc)
   _color = _pc.split("-").map((s) => `#${s}`);
 
-  for(var j = 0; j < 10; j++){
-    for(var i = 0; i < windowWidth*2; i+=random(8,10)){
-      var c = new Ring(center.x, center.y, 0 + i);
-      rings.push(c);
-    }
-  }
+  // for(var j = 0; j < 10; j++){
+  //   for(var i = 0; i < windowWidth*2; i+=random(8,10)){
+  //     var c = new Ring(center.x, center.y, 0 + i);
+  //     rings.push(c);
+  //   }
+  // }
 
-  rings.forEach((r) => {
-    r.draw();
-  });
+  // rings.forEach((r) => {
+  //   r.draw();
+  // });
   var bg = random(1);
 
   if(bg > .5){
@@ -128,16 +128,16 @@ window.setup = function() {
   } else {
     b = 255
   }
-  ssss = random(2,5)
+  ssss = random(1,2)
   background(b)
   numberToDraw = random(1000,2000);
-  heightToDraw = random(.4,1.7)
+  heightToDraw = random(1.5,2)
 
 
-  rings.forEach((r) => {
-    r.rotate();
-    r.draw();
-  });
+  // rings.forEach((r) => {
+  //   r.rotate();
+  //   r.draw();
+  // });
 }
 
 var iteration = 0;
@@ -165,7 +165,7 @@ window.draw = function() {
 
      // Iterate over horizontal pixels
      for (let x = 0; x <= width; x += 1) {
-       let y = map(noise(xoff, yoff), 0, 1, iterationDown/ssss, iterationDown*ssss );
+       let y = map(noise(xoff, yoff), 0, 1, iterationDown/200, iterationDown+iterationDown/(ssss/heightToDraw) );
        vertex(x, y);
        xoff += _xoff;
      }
