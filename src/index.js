@@ -1,6 +1,7 @@
 var rnd;
 var canvas;
 var center;
+var yoff = 0;
 
 window.preload = function() {
   rnd = map(fxrand(), 0, 1, 0, 10000);
@@ -73,11 +74,15 @@ class Arc {
 
 var arcs = [];
 var bg;
+var c;
 window.setup = function() {
+  _xoff = random(0.001, 0.003);
+  _yoff = random(0.03, 0.01);
   bg = random(['#000', '#fff']);
-  var c = getColorScheme()
-  var increment = random(1,20);
-  var s = min(windowWidth, windowHeight)
+  c = getColorScheme()
+  var increment = random(2,5);
+  var s = min(windowWidth, windowHeight);
+  iterationDown = s/2;
   canvas = createCanvas(s, s);
   center = createVector(s/2, s/2);
   //noFill();
@@ -89,20 +94,25 @@ window.setup = function() {
         
       }
   }
+      console.log(arcs)
 
-
-  stroke(0)
 
 }
 
+var iterationDown;
+var _xoff;
+var _yoff;
+
+
 window.draw = function() {
   noFill();
-  background(bg);
-
-
+  background(bg)
   arcs.forEach((a) => {
     a.draw();
   });
+
+
+
   // arcs.forEach((a) => {
   //   push();
   //   var weight = a.getWeight();
@@ -117,6 +127,33 @@ window.draw = function() {
   //   pop();
   // });
 
+  iterationDown = iterationDown + 1;
+  //fill(0)
+  //rect(5,5, 100, 100)
+
+  //text(iteration, 10,20)
+
+  // var ccc = color(random(c))
+
+
+  // stroke(ccc)
+  // strokeWeight(random(1,2))
+  //  // We are going to draw a polygon out of the wave points
+  //  beginShape();
+
+  // let xoff = 0; 
+  // fill(ccc)
+  //  // Iterate over horizontal pixels
+  // for (let x = 0; x <= width; x += 1) {
+  //     let y = map(noise(xoff, yoff), 0, 1, iterationDown, iterationDown+iterationDown );
+  //     vertex(x, y);
+  //     xoff += _xoff;
+  // }
+  // console.log(yoff)
+  //  yoff += _yoff;
+  //  vertex(width+100, height+10);
+  //  vertex(0-100, height+10);
+  //  endShape(CLOSE);
 }
 
 window.mousePressed = function() {
