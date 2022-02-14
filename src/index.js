@@ -9,6 +9,7 @@ window.preload = function() {
   randomSeed(rnd);
 }
 
+import { internalIP } from 'webpack-dev-server';
 import { getColorScheme } from './colors/moma'
 
 class Arc {
@@ -22,16 +23,31 @@ class Arc {
     this.pi3 = random(PI)
     this.originalRotation = PI / random(3.0);
     this.rotation = this.originalRotation;
-    this.speed = random(.01)
+    this.speed = random(.005)
     this.direction = random(1);
-    this.weight = random(increment*.5)
-    var _c = color(random(c));
-    _c.setAlpha(random(255))
-    this.color = _c
+    this.weight = random(increment);
+    this.alpha = random(255);
+    this.color = color(random(c));
+    this.alphaIncrement = random([true, false])
   }
   draw() {
     push();
+    if(this.alphaIncrement){
+      this.alpha += random(2,5)
+    }
 
+    if(!this.alphaIncrement){
+      this.alpha -= random(2,5)
+    }
+
+
+    if(this.alpha > 255){
+      this.alphaIncrement = false
+    }
+    if(this.alpha < 0){
+      this.alphaIncrement = true
+    }
+    this.color.setAlpha(this.alpha)
     translate(this.x,this.y);
     stroke(this.color)
     strokeWeight(this.weight)
@@ -85,23 +101,59 @@ var c;
 window.setup = function() {
   _xoff = random(0.001, 0.003);
   _yoff = random(0.03, 0.01);
-  bg = random(['#000', '#fff']);
-  c = getColorScheme()
-  var increment = random(7,20);
+
+  c = getColorScheme();
+  var bgc = JSON.parse(JSON.stringify(c));
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bgc.push('#fff')
+  bgc.push('#000')
+  bg = random(bgc);
   var s = min(windowWidth, windowHeight);
   iterationDown = s/2;
-  canvas = createCanvas(s, s);
-  center = createVector(s/2, s/2);
+  canvas = createCanvas(windowWidth, windowHeight);
+  center = createVector(windowWidth/2, s/2);
   //noFill();
-  for(var k = 0; k< random(2,5); k++){
-    //var _cc = [random(center.x*2), random(center.y*2)]
-      for(var i=0; i< s; i = i + increment) {
-        //arcs.push(new Arc(i, _cc[0], _cc[1], increment, c, s))
-        arcs.push(new Arc(i, center.x, center.y, increment, c, s))
-        
-      }
+  var maybe = random(1);
+  if(maybe > .5){
+    var fullscreen = true;
+    var increment = random(5,20);
+    for(var k = 0; k< 2; k++){
+      //var _cc = [random(center.x*2), random(center.y*2)]
+        for(var i=0; i< s*2.5; i = i + increment) {
+          //arcs.push(new Arc(i, _cc[0], _cc[1], increment, c, s))
+          arcs.push(new Arc(i, center.x, center.y, increment, c, s))
+          
+        }
+    }
+  } else {
+    var fullscreen = false;
+    var increment = random(5,10);
+    for(var k = 0; k< 3; k++){
+      //var _cc = [random(center.x*2), random(center.y*2)]
+        for(var i=0; i< s; i = i + increment) {
+          //arcs.push(new Arc(i, _cc[0], _cc[1], increment, c, s))
+          arcs.push(new Arc(i, center.x, center.y, increment, c, s))
+          
+        }
+    }
   }
-
+  window.$fxhashFeatures = {
+    background: bg,
+    increment: int(increment),
+    colors: c.join('-'),
+    fullscreen
+  }
 }
 
 var iterationDown;
@@ -128,7 +180,7 @@ window.draw = function() {
 
     stroke(a.getColor())
     strokeWeight(weight)
-    arc(0, 0, size, size, 0, pi);
+    //arc(0, 0, size, size, 0, pi);
 
     pop();
   });
