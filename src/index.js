@@ -19,6 +19,7 @@ class Arc {
     this.y = y;
     this.pi1 = random(TWO_PI);
     this.pi2 = random(TWO_PI);
+    this.pi3 = random(PI)
     this.originalRotation = PI / random(3.0);
     this.rotation = this.originalRotation;
     this.speed = random(.01)
@@ -70,6 +71,12 @@ class Arc {
   getOriginalRotation(){
     return this.originalRotation
   }
+  getColor(){
+    return this.color
+  }
+  getPi(){
+    return this.pi3
+  }
 }
 
 var arcs = [];
@@ -80,13 +87,13 @@ window.setup = function() {
   _yoff = random(0.03, 0.01);
   bg = random(['#000', '#fff']);
   c = getColorScheme()
-  var increment = random(2,5);
+  var increment = random(7,20);
   var s = min(windowWidth, windowHeight);
   iterationDown = s/2;
   canvas = createCanvas(s, s);
   center = createVector(s/2, s/2);
   //noFill();
-  for(var k = 0; k< random(2,4); k++){
+  for(var k = 0; k< random(2,5); k++){
     //var _cc = [random(center.x*2), random(center.y*2)]
       for(var i=0; i< s; i = i + increment) {
         //arcs.push(new Arc(i, _cc[0], _cc[1], increment, c, s))
@@ -94,8 +101,6 @@ window.setup = function() {
         
       }
   }
-      console.log(arcs)
-
 
 }
 
@@ -113,21 +118,22 @@ window.draw = function() {
 
 
 
-  // arcs.forEach((a) => {
-  //   push();
-  //   var weight = a.getWeight();
-  //   var size = a.getSize();
-  //   var oR = a.getOriginalRotation;
-  //   translate(center.x,center.y);
+  arcs.forEach((a) => {
+    push();
+    var weight = a.getWeight();
+    var size = a.getSize();
+    var oR = a.getOriginalRotation();
+    var pi = a.getPi()
+    translate(center.x,center.y);
 
-  //   stroke(0)
-  //   strokeWeight(weight)
-  //   arc(0, 0, size, size, 0, PI);
-  //   rotate(oR);
-  //   pop();
-  // });
+    stroke(a.getColor())
+    strokeWeight(weight)
+    arc(0, 0, size, size, 0, pi);
 
-  iterationDown = iterationDown + 1;
+    pop();
+  });
+
+  //iterationDown = iterationDown + 1;
   //fill(0)
   //rect(5,5, 100, 100)
 
