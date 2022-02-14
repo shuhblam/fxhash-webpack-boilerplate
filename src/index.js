@@ -11,7 +11,8 @@ window.preload = function() {
 import { getColorScheme } from './colors/moma'
 
 class Arc {
-  constructor(size, x,y, increment, c) {
+  constructor(size, x,y, increment, c, s) {
+    this.s = s;
     this.size = size;
     this.x = x;
     this.y = y;
@@ -34,12 +35,24 @@ class Arc {
     strokeWeight(this.weight)
     if(this.direction > .5){
       this.rotation = this.rotation - this.speed;
-      this.x = this.x - random(.1);
-      this.y = this.y + random(.1);
+      // if(this.x > this.s){
+      //   this.x = this.x - random(10);
+      // }
+      // if(this.x < 0){
+      //   this.x = this.x + random(10);
+      // }
+
+      // if(this.y > this.s){
+      //   this.y = this.y - random(10);
+      // }
+      // if(this.y < 0){
+      //   this.y = this.y + random(10);
+      // }
+
     } else {
       this.rotation = this.rotation + this.speed;
-      this.x = this.x + random(.2);
-      this.y = this.y - random(.1);
+      // this.x = this.x + random(.2);
+      // this.y = this.y - random(.1);
     }
 
     rotate(this.rotation)
@@ -63,15 +76,17 @@ var bg;
 window.setup = function() {
   bg = random(['#000', '#fff']);
   var c = getColorScheme()
-  var increment = random(10,20);
+  var increment = random(1,20);
   var s = min(windowWidth, windowHeight)
   canvas = createCanvas(s, s);
   center = createVector(s/2, s/2);
   //noFill();
-  for(var k = 0; k< random(200,450); k++){
-    var _cc = [random(center.x*2), random(center.y*2)]
-      for(var i=0; i< s*random(1); i = i + increment) {
-        arcs.push(new Arc(i, _cc[0], _cc[1], increment, c))
+  for(var k = 0; k< random(2,4); k++){
+    //var _cc = [random(center.x*2), random(center.y*2)]
+      for(var i=0; i< s; i = i + increment) {
+        //arcs.push(new Arc(i, _cc[0], _cc[1], increment, c, s))
+        arcs.push(new Arc(i, center.x, center.y, increment, c, s))
+        
       }
   }
 
